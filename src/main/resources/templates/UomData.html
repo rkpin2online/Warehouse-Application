@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Uom Data Details</title>
+</head>
+<body>
+	<div th:insert="fragments/commonui :: userhead"></div>
+	<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-center text-white">
+				<h2>Uom Data Details</h2>
+			</div>
+			<!-- header end -->
+			<div class="card-body">
+				<div class="row form-group">
+					<div class="col-md-12 panel">
+						<a th:href="@{/uom/excel}" class="btn btn-warning btn-lg "><i
+							class="fas fa-file-excel"></i></a> <a th:href="@{/uom/pdf}"
+							class="btn btn-primary btn-lg "><i class="fas fa-file-pdf"></i></a>
+					</div>
+				</div>
+				<table class="table table-hover text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>TYPE</th>
+							<th>MODEL</th>
+							<th colspan="5">OPERATIONS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- page.getContent() -->
+						<tr th:each="ob:${page.content}">
+							<td th:text="${ob.id}"></td>
+							<td th:text="${ob.uomType}"></td>
+							<td th:text="${ob.uomModel}"></td>
+							<td><a th:href="@{/uom/edit/{id}(id=${ob.id})}"
+								class="btn btn-success"><i class="far fa-edit"></i></a></td>
+							<td><a th:href="@{/uom/view/{id}(id=${ob.id})}"
+								class="btn btn-info"><i class="far fa-eye"></i></a></td>
+								
+								
+							<td>
+							<a th:href="@{/uom/delete/{id}(id=${ob.id})}"
+								class="btn btn-danger" title="remove">
+								
+								<i class="fas fa-trash-alt"></i></a></td>
+								
+								
+							<td><a th:href="@{/uom/excel/{id}(id=${ob.id})}"
+								class="btn btn-warning"><i class="fas fa-file-excel"></i></a></td>
+							<td><a th:href="@{/uom/pdf/{id}(id=${ob.id})}"
+								class="btn btn-primary"><i class="fas fa-file-pdf"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<!-- body end -->
+			<div th:if="${message!=null}">
+				<div class="card-footer bg-info text-white text-center">
+					<b><span th:text="${message}"></span></b>
+				</div>
+				<!-- footer end -->
+			</div>
+			<!-- condition end -->
+		</div>
+		<br/>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+				
+				<li th:if="${page.hasPrevious()}" class="page-item">
+					<a class="page-link" th:href="@{/uom/all(page.number-1)}">Previous</a>
+				</li>
+				
+				
+				<th:block th:each="i:${#numbers.sequence(0,page.totalPages-1)}">
+					<li class="page-item">
+						<a class="page-link" th:href="@{/uom/all(page=${i})}">[[${i+1}]]</a>
+					</li>
+				</th:block>
+				
+				<li th:if="${page.hasNext()}" class="page-item">
+					<a class="page-link" th:href="@{/uom/all(page.number+1)}">Next</a>
+				</li>
+			</ul>
+		</nav>
+
+		<!-- card end -->
+	</div>
+	<!-- container end -->
+<script type="text/javascript">
+ $(document).ready(function(){
+	$('a[title="remove"]').on('click',function(){
+		return confirm('Do you want to delete Uom?');
+	});	 
+ });
+</script>
+</body>
+</html>

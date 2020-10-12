@@ -1,0 +1,99 @@
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card-header bg-primary text-white text-center">
+			<H3>WELCOME TO ORDER METHOD MODE CHARTS</H3>
+		</div>
+		<div class="card-body">
+		<a th:href="@{/ordermethod/all}"class="btn btn-warning">BACK</a> <br/>
+			<img th:src="@{/ordermodeA.jpg}" /> 
+			<img th:src="@{/ordermodeB.jpg}" />
+			
+			<!-- 1. Add Google Charts Library -->
+		<script type="text/javascript"
+			src="https://www.gstatic.com/charts/loader.js"></script>
+
+		<!-- 2. Define Script Area -->
+		<script type="text/javascript">
+			/* 3. Add Google Chart Import Section */
+			google.charts.load('current', {'packages' : [ 'corechart', 'bar' ]});
+			google.charts.setOnLoadCallback(drawChart); //calling function
+
+			/* 4. Define call back function*/
+			function drawChart() {
+				//a.-> Make AJAX call, get data in JSON format
+				$.ajax({
+					url : 'gcharts',
+					success : function(result) {
+						//b.-> create DatabTable (empty)
+						 var data = new google.visualization.DataTable();
+						
+						//c.-> Add columns and rows(JSON data)
+						data.addColumn('string','Mode');
+						data.addColumn('number','Count');
+						
+						data.addRows(result);
+						
+						//d.-> Provide Chart Options (title, width, height,colors..etc)
+						//for Pie
+						var piechart_options = {
+							'title' : 'ORDER METHOD PIE CHART',
+							'width' : 600,
+							'height': 400 
+						};
+						//for Bar
+						var barchart_options = {
+								chart : {
+									title : 'ORDER METHOD BAR CHART',
+									subtitle: 'MODE AND COUNT DATA'
+								},
+								width : 300,
+								height: 400,
+								bars : 'vertical',
+								//colors: ['red','green'],
+								//bars : 'horizontal'
+						}
+						
+						//e.-> Create Chart object
+						//for Pie
+						var piechart = new google.visualization.PieChart(
+							document.getElementById('piechart_div')		//spanId Link 
+						);
+						//for Bar
+						var barchart = new google.charts.Bar(
+							document.getElementById('barchart_div')		//spanId Link 
+						);
+						
+						//f.-> Draw Charts using div/span(id) section
+						//for Pie
+						piechart.draw(data,piechart_options);
+						//for Bar
+						barchart.draw(data, google.charts.Bar.convertOptions(barchart_options));
+					}
+				});
+
+			}//fun-end
+		</script>
+		<!--  g. Outside script tag define one div/span with id -->
+		<table>
+			<tr>
+				<td>
+					<span id="piechart_div"></span> <!-- For Pie -->
+				</td>
+				<td>
+					<span id="barchart_div"></span> <!-- for Bar -->
+				</td>
+			</tr>
+		</table>
+		</div>
+	</div>
+</body>
+</html>

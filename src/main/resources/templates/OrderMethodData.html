@@ -1,0 +1,91 @@
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<H3>WELCOME TO ORDER METHOD DATA PAGE</H3>
+			</div>
+			<div class="card-body">
+				
+				<form th:action="@{/ordermethod/all}" method="GET"
+					th:object="${orderMethod}">
+					<div class="row">
+						<div class="col-1">
+							<label>Order Code</label>
+						</div>
+						<div class="col-2">
+							<input type="text" th:field="*{orderCode}" class="form-control" />
+						</div>
+						
+						<div class="col-1">
+							<label>Description</label>
+						</div>
+						<div class="col-2">
+							<textarea th:field="*{description}" class="form-control"></textarea>
+						</div>
+						<div class="col-1">
+							<label>Order Type</label>
+						</div>
+						<div class="col-2">
+							<select th:field="*{orderType}" class="form-control">
+								<option value="">-SELECT-</option>
+								<option value="FIFO">FIFO</option>
+								<option value="LIFO">LIFO</option>
+								<option value="FCFO">FCFO</option>
+								<option value="FEFO">FEFO</option>
+							</select>
+						</div>
+						<div class="col-2">
+							<input type="submit" value="Search" class="btn btn-info"/>
+						</div>
+					</div>	
+				</form>
+									
+				<hr/>
+				<a th:href="@{/ordermethod/excel}"class="btn btn-warning">EXCEL EXPORT</a> |
+				<a th:href="@{/ordermethod/pdf}"class="btn btn-warning">PDF EXPORT</a> |
+				<a th:href="@{/ordermethod/charts}"class="btn btn-warning">CHARTS</a> 
+				<table class="table table-hover ">
+					<tr class="bg-info text-white ">
+						<th>ID</th>
+						<th>MODE</th>
+						<th>CODE</th>
+						<th>TYPE</th>
+						<th>NOTE</th>
+						
+						<th>OPERATION</th>
+					</tr>
+					<tr th:each="ob:${list}">
+						<td th:text="${ob.id}"></td>
+						<td th:text="${ob.orderMode}"></td>
+						<td th:text="${ob.orderCode}"></td>
+						<td th:text="${ob.orderType}"></td>
+						<td th:text="${ob.description}"></td>
+						
+						<td><a th:href="@{/ordermethod/delete/{id}(id=${ob.id})}">DELETE</a>
+							| <a th:href="@{/ordermethod/edit/{id}(id=${ob.id})}">EDIT</a> |
+							<a th:href="@{/ordermethod/view/{id}(id=${ob.id})}">VIEW</a></td>
+					</tr>
+				</table>
+			</div>
+
+			<!-- This is card Footer -->
+			<div th:if="${message!=null}">
+				<div class="card-footer text-white bg-info">
+					<b><span th:text="${message}"></span></b>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+
+
+

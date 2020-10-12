@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+</head>
+<body>
+	<div th:insert="fragments/commonui :: userhead"></div>
+	<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-center text-white">
+				<h2>GRN DETAILS VIEW</h2>
+			</div>
+			<!-- header end -->
+			<div class="card-body">
+				<table class="table table-hover text-center">
+					<thead>
+						<tr>
+							<th>PART CODE</th>
+							<th>BASE COST</th>
+							<th>QTY</th>
+							<th>LINE VALUE</th>
+							<th>STATUS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- page.getContent() -->
+						<tr th:each="ob:${dtls}">
+							<td th:text="${ob.partCode}"></td>
+							<td th:text="${ob.baseCost}"></td>
+							<td th:text="${ob.qty}"></td>
+							<td th:text="${ob.lineValue}"></td>
+							<td>
+							<span th:if="${ob.status==null}"> 
+							<a th:href="@{/grn/status?grnId={grnId}&dtlId={dtlId}&status=ACCEPTED(grnId=${ob.grn.id},dtlId=${ob.id})}"
+									class="btn btn-success">ACCEPT</a> 
+							<a th:href="@{/grn/status?grnId={grnId}&dtlId={dtlId}&status=REJECTED(grnId=${ob.grn.id},dtlId=${ob.id})}"
+									class="btn btn-danger">REJECT</a>
+							</span> 
+							<b th:if="${ob.status!=null}" th:text="${ob.status}">
+							</b>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+		<!-- card end -->
+	</div>
+	<!-- container end -->
+</body>
+</html>

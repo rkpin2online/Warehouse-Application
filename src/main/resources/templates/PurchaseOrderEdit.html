@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Purchase Order Form</title>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header text-center text-white bg-primary">
+				<h3>Purchase Order Registration Form</h3>
+			</div>
+			<!-- header end -->
+			<div class="card-body">
+				<form th:action="@{/purchaseorder/update}" method="POST"
+					th:object="${purchaseOrder}" id="purchaseOrderForm">
+					<input type="hidden" readonly="readonly" th:field="*{id}" />
+					<!-- row#1 -->
+					<div class="row">
+						<div class="col-2">
+							<label for="orderCode">Order Code</label>
+						</div>
+						<div class="col-4">
+							<input type="text" th:field="*{orderCode}" class="form-control" />
+						</div>
+						<div class="col-6">
+							<span id="orderCodeError"></span>
+						</div>
+					</div>
+					
+					<!-- row#Integeration -->
+					<div class="row">
+						<div class="col-2">
+							<label>Shipment Code</label>
+						</div>
+						<div class="col-4">
+							<select th:field="*{shipmentType.id}" id="shipmentType" class="form-control">
+								<option value="">SELECT</option>
+								<option th:each="ob:${shipmentTypes}" th:value="${ob.key}" th:text="${ob.value}"></option>
+							</select>
+						</div>
+						<div class="col-6">
+							<span id="shipmentTypeError"></span>
+						</div>
+					</div>
+					
+					
+					<!-- row#Integeration -->
+					<div class="row">
+						<div class="col-2">
+							<label>Vendor</label>
+						</div>
+						<div class="col-4">
+							<select th:field="*{vendor.id}" id="vendor" class="form-control">
+								<option value="">SELECT</option>
+								<option th:each="ob:${whUserTypes}" th:value="${ob.key}" th:text="${ob.value}"></option>
+							</select>
+						</div>
+						<div class="col-6">
+							<span id="vendorError"></span>
+						</div>
+					</div>
+					
+					
+					<!-- row#2 -->
+					<div class="row">
+						<div class="col-2">
+							<label for="referenceNumber">Reference Number</label>
+						</div>
+						<div class="col-4">
+							<input type="text" th:field="*{referenceNumber}"
+								class="form-control" />
+						</div>
+						<div class="col-6">
+							<span id="referenceNumberError"></span>
+						</div>
+					</div>
+					<!-- row#3 -->
+					<div class="row">
+						<div class="col-2">
+							<label for="qualityCheck">Quality Check</label>
+						</div>
+						<div class="col-4">
+							<input type="radio" th:field="*{qualityCheck}" value="Required" />
+							Required <input type="radio" th:field="*{qualityCheck}"
+								value="Not Required" /> Not Required
+						</div>
+						<div class="col-6">
+							<span id="qualityCheckError"></span>
+						</div>
+					</div>
+
+					<!-- row#4 -->
+					<div class="row">
+						<div class="col-2">
+							<label for="status">Status</label>
+						</div>
+						<div class="col-4">
+							<input type="text" th:field="*{status}"
+								class="form-control"
+								th:value="${purchaseOrder.setDefaultStatus('OPEN')}"
+								readonly="readonly" />
+						</div>
+						<div class="col-6">
+							<span id="defaultStatusError"></span>
+						</div>
+					</div>
+					<!-- row#5 -->
+					<div class="row">
+						<div class="col-2">
+							<label for="description">Description</label>
+						</div>
+						<div class="col-4">
+							<textarea th:field="*{description}" class="form-control"></textarea>
+						</div>
+						<div class="col-6">
+							<span id="descriptionError"></span>
+						</div>
+					</div>
+					<!-- row#6 -->
+					<div class="row">
+						<button class="btn btn-success">Update Purchase Order</button>
+					</div>
+
+				</form>
+				<!-- form end -->
+
+			</div>
+			<!-- body end -->
+			<div th:if="${message!=null}">
+				<div class="card-footer bg-info text-white text-center">
+					<b><span th:text="${message}"></span></b>
+				</div>
+				<!-- condition end -->
+			</div>
+			<!-- footer end -->
+		</div>
+		<!-- card end -->
+
+	</div>
+	<!-- container end -->
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Uom Registration Form</title>
+</head>
+<body>
+ <div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+ <script type="text/javascript" th:src="@{/js/uom.js}"></script>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<h2>Uom Registration Page!</h2>
+			</div>
+			<!-- header end -->
+
+			<div class="card-body">
+				<form th:action="@{/uom/save}" method="POST" th:object="${uom}" id="uomForm">
+					<input type="hidden" readonly="readonly" th:field="*{id}"/>
+					<!-- row#1 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="uomType">Uom Type</label>
+						</div>
+						<div class="col-4">
+							<select th:field="*{uomType}" class="form-control">
+								<option value="">-SELECT-</option>
+								<option value="Packing">Packing</option>
+								<option value="NoPacking">No Packing</option>
+								<option value="NA">NA</option>
+							</select>
+						</div>
+						<div class="col-4">
+							<span id="uomTypeError"></span>
+						</div>
+					</div>
+					<!-- row#2 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="uomModel">Uom Model</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" th:field="*{uomModel}"
+								placeholder="Uom Mode">
+						</div>
+						<div class="col-4">
+							<span id="uomModelError"></span>
+						</div>
+					</div>
+					<!-- row#3 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="description">Description</label>
+						</div>
+						<div class="col-4">
+							<textarea class="form-control" th:field="*{description}"></textarea>
+						</div>
+						<div class="col-4">
+							<span id="descriptionError"></span>
+						</div>
+					</div>
+
+					<!-- row#4 -->
+					<div class="row">
+						<input type="submit" value="Create Uom" class="btn btn-primary">
+					</div>
+
+				</form>
+			</div>
+			<!-- body end -->
+
+			<div th:if="${message!=null}">
+				<div class="card-footer text-center bg-info text-white">
+					<b><span th:text="${message}"></span></b>
+				</div>
+				<!-- footer end -->
+			</div>
+		</div>
+		<!-- card end -->
+	</div>
+
+</body>
+</html>

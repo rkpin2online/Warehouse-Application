@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Part Data Details</title>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-center text-white">
+				<h2>Part Data Details</h2>
+			</div>
+			<!-- header end -->
+			<div class="card-body">
+			<div class="form-group">
+			<a th:href="@{/part/excel}" class="btn btn-warning btn-lg "><i class="fas fa-file-excel"></i></a>
+			<a th:href="@{/part/pdf}" class="btn btn-secondary btn-lg "><i class="fas fa-file-pdf"></i></a>
+			</div>
+				<table class="table table-hover text-center">
+					<thead>
+						<tr>
+							<th>PART ID</th>						
+							<th>PART CODE</th>
+							<th>BASE COST</th>							
+							<th>BASE CURRENCY</th>							
+							<th>UOM</th>							
+							<th></th>							
+							<th colspan="5">OPERATIONS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="ob:${list}">
+							<td th:text="${ob.id}"></td>
+							<td th:text="${ob.partCode}"></td>
+							<td th:text="${ob.baseCost}"></td>
+							<td th:text="${ob.baseCurr}"></td>	
+							<td th:text="${ob.uom.uomModel}"></td>					
+							<td><a th:href="@{/part/edit/{id}(id=${ob.id})}"class="btn btn-success"><i class="far fa-edit"></i></a></td>
+							<td><a th:href="@{/part/view/{id}(id=${ob.id})}" class="btn btn-info"><i class="far fa-eye"></i></a></td>
+							<td><a th:href="@{/part/delete/{id}(id=${ob.id})}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+							<td><a th:href="@{/part/excel/{id}(id=${ob.id})}" class="btn btn-warning"><i class="fas fa-file-excel"></i></a></td>
+							<td><a th:href="@{/part/pdf/{id}(id=${ob.id})}" class="btn btn-secondary"><i class="fas fa-file-pdf"></i></a></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+			<!-- body end -->
+			<div th:if="${message!=null}">
+				<div class="card-footer bg-info text-white text-center">
+					<b><span th:text="${message}"></span></b>
+				</div>
+				<!-- footer end -->
+			</div>
+			<!-- condition end -->
+		</div>
+		<!-- card end -->
+	</div>
+	<!-- container end -->
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+<h3>ORDER METHOD VIEW PAGE</h3>
+	<table border="1">
+		<tr>
+			<th>ID</th> 
+			<td th:text="${ob.id}"></td>
+		</tr>
+		<tr>
+			<th>Order Mode</th> 
+			<td th:text="${ob.orderMode}"></td>
+		</tr>
+		<tr>
+			<th>Order Code</th> 
+			<td th:text="${ob.orderCode}"></td>
+		</tr>
+		<tr>
+			<th>Order Type</th> 
+			<td th:text="${ob.orderType}"></td>
+		</tr>
+		<tr>
+			<th>Order Acpt</th> 
+			<td th:text="${ob.orderAcpt}"></td>
+		</tr>
+		<tr>
+			<th>Description</th> 
+			<td th:text="${ob.description}"></td>
+		</tr>
+		
+	</table>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+<div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-center text-white">
+				<h2>User Register Page</h2>
+			</div>
+			<!-- header end -->
+			<div class="card-body">
+			<form th:action="@{/user/save}" method="POST" th:object="${user}" id="userForm">
+					<div class="row">
+						<div class="col-4">
+							<label for="name">NAME</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" th:field="*{name}">
+						</div>
+						<div class="col-4">
+							<span id="nameError"></span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-4">
+							<label for="email">EMAIL</label>
+						</div>
+						<div class="col-4">
+							<input type="text" class="form-control" th:field="*{email}">
+						</div>
+						<div class="col-4">
+							<span id="emailError"></span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-4">
+							<label for="password">PASSWORD</label>
+						</div>
+						<div class="col-4">
+							<input type="password" class="form-control" th:field="*{password}">
+						</div>
+						<div class="col-4">
+							<span id="passwordError"></span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-4">
+							<label for="cpassword">CONFORM PASSWORD</label>
+						</div>
+						<div class="col-4">
+							<input type="password" class="form-control" id="cpassword" name="cpassword">
+						</div>
+						<div class="col-4">
+							<span id="cpasswordError"></span>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-4">
+							<label>ROLES</label>
+						</div>
+						<div class="col-4">
+	 						<input type="checkbox" name="roles" value="ADMIN"/> ADMIN 
+	 						<input type="checkbox" name="roles" value="EMPLOYEE"/> EMPLOYEE
+						</div>
+						<div class="col-4">
+							<span id="rolesError"></span>
+						</div>
+					</div>
+					<input type="submit" value="Register" class="btn btn-success"/>	 
+				</form>
+				
+				<div th:if="${message!=null}">
+				<div class="card-footer text-center bg-info text-white">
+					<b><span th:text="${message}"></span></b>
+				</div>
+				<!-- footer end -->
+			</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+$(document).ready(function(){
+  $("#userForm").submit(function(){
+	  var pwd = $("#password").val();
+	  var cpwd = $("#cpassword").val();
+	  if(pwd!=cpwd){
+		  $("#cpasswordError").show();
+		  $("#cpasswordError").html("Password not matched, please check it");
+		  $("#cpasswordError").css("color","red");
+		  return false;
+	  }else{
+		  $("#cpasswordError").hide();
+		  return true;
+	  }
+  });	
+});
+
+
+
+
+</script>	
+</body>
+</html>
+
+

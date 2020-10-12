@@ -1,0 +1,164 @@
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">
+	
+</script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-white text-center">
+				<h3>WELCOME TO DOCUMENTS PAGE</h3>
+			</div>
+			<div class="card-body">
+				<form id="documentForm" th:action="@{/documents/save}" method="post"
+					enctype="multipart/form-data">
+
+					<!-- Row#1 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="fileId">FILE ID</label>
+						</div>
+						<div class="col-4">
+							<input type="text" id="fileId" name="fileId" class="form-control" />
+						</div>
+						<div class="col-4">
+							<span id="fileIdError"></span>
+						</div>
+					</div>
+
+					<!-- Row#1 -->
+					<div class="row">
+						<div class="col-4">
+							<label for="fileOb">SELECT FILE</label>
+						</div>
+						<div class="col-4">
+							<input type="file" id="fileOb" name="fileOb"
+								class="form-control bg-info text-white"
+								accept=".jpg,.jpeg,.doc,.docx,.zip" />
+						</div>
+						<div class="col-4">
+							<span id="fileObError"></span>
+						</div>
+					</div>
+
+					<input type="submit" value="Upload" class="btn btn-success" />
+				</form>
+			</div>
+			<div class="card-body">
+				<table class="table">
+					<tr>
+						<th>FILE ID</th>
+						<th>FILE NAME</th>
+						<th>LINK</th>
+					</tr>
+					<tr th:each="ob:${list}">
+						<td th:text="${ob[0]}" /></td>
+						<td th:text="${ob[1]}" /></td>
+						<td><a th:href="@{/documents/download/{id}(id=${ob[0]})}" >
+						<img th:src="@{/images/download.jpg}"
+								width="50" height="50" />
+						</a></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+        $(document).ready(function () {
+
+            $("#fileIdError").hide();
+            $("#fileObError").hide();
+
+            var fileIdError = false;
+            var fileObError = false;
+
+            $("#fileId").keyup(function () {
+                validate_fileId();
+            });
+            $('input[type="file"][name="fileOb"]').change(function () {
+                validate_fileOb(this.files[0]);
+            });
+
+            function validate_fileId() {
+                var val = $("#fileId").val();
+                var exp = /^[1-9][0-9]*$/;
+
+                if (val == '') {
+                    $("#fileIdError").show();
+                    $("#fileIdError").html("Enter <b>File Id</b>");
+                    $("#fileIdError").css("color", "red");
+                    fileIdError = false;
+                } else if (!exp.test(val)) {
+                    $("#fileIdError").show();
+                    $("#fileIdError").html("Not a valid <b>File Id</b>");
+                    $("#fileIdError").css("color", "red");
+                    fileIdError = false;
+                } else {
+                    $("#fileIdError").hide();
+                    fileIdError = true;
+                }
+                return fileIdError;
+            }
+
+
+            function validate_fileOb(ob) {
+                //here ob contains all file details
+                var fname = ob.name;
+                var fsize = ob.size; //bytes 1024 = 1KB
+                var fext = fname.substring(fname.lastIndexOf(".") + 1);
+                //alert(fname);  alert(fsize); alert(fext);
+                var allowedExt = ["jpg", "jpeg", "doc", "docx", "zip"];
+                if ($.inArray(fext, allowedExt) == -1) {
+                    $("#fileObError").show();
+                    $("#fileObError").html("Choose <b>Valid File :" + allowedExt + " only</b>");
+                    $("#fileObError").css("color", "red");
+                    fileObError = false;
+                } else if (fsize <= 1024 * 20) { //Min size 20 KB
+                    $("#fileObError").show();
+                    $("#fileObError").html("<b>Size less then 20KB</b>");
+                    $("#fileObError").css("color", "red");
+                    fileObError = false;
+                } else if (fsize > 1024 * 1024 * 10) { //10MB
+                    $("#fileObError").show();
+                    $("#fileObError").html("<b>Size exceeds 10MB</b>");
+                    $("#fileObError").css("color", "red");
+                    fileObError = false;
+                } else {
+                    $("#fileObError").hide();
+                    fileObError = true;
+                }
+                return fileObError;
+            }
+            
+            function validate_fileObRequeired(){
+                var val = $("#fileOb").val();
+                if (val =='') {
+                    $("#fileObError").show();
+                    $("#fileObError").html("Choose <b>One File</b>");
+                    $("#fileObError").css("color", "red");
+                    fileObError = false;
+                }
+                return fileObError;
+            }
+
+            $("#documentForm").submit(function () {
+                validate_fileId();
+                validate_fileObRequeired();
+                if (fileIdError && fileObError)
+                    return true;
+                else
+                    return false;
+            });
+        });
+    </script>
+</body>
+</html>

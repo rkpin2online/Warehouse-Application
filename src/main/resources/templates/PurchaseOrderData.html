@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="ISO-8859-1">
+<title>Purchase Order Data Details</title>
+</head>
+<body>
+<div th:insert="fragments/commonui :: userhead"></div>
+ <div th:insert="fragments/commonui :: usermenu"></div>
+	<div class="container">
+		<div class="card">
+			<div class="card-header bg-primary text-center text-white">
+				<h2>Purchase Order Data Details</h2>
+			</div>
+			<!-- header end -->
+			<div class="card-body">
+				<div class="row form-group">
+				<div class="col-md-12 panel">
+				<a th:href="@{/purchaseorder/excel}" class="btn btn-warning btn-lg "><i class="fas fa-file-excel"></i></a>
+				<a th:href="@{/purchaseorder/pdf}" class="btn btn-secondary btn-lg "><i class="fas fa-file-pdf"></i></a>
+				</div>
+				</div>
+				<div class="row">
+				<table class="table table-hover text-center">
+					<thead class="bg-light">
+						<tr>
+							<th>ORDER ID</th>
+							<th>ORDER CODE</th>
+							<th>STATUS</th>
+							<th>SHIPMENT CODE</th>
+							<th>VENDOR</th>
+							<th></th>							
+							<th colspan="6">OPERATIONS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="ob:${list}">
+							<td th:text="${ob.id}"></td>
+							<td th:text="${ob.orderCode}"></td>
+							<td th:text="${ob.status}" class="text-danger"></td>
+							<td th:text="${ob.shipmentType.shipmentCode}"></td>
+							<td th:text="${ob.vendor.userCode}"></td>
+												
+							<td><a th:href="@{/purchaseorder/edit/{id}(id=${ob.id})}" class="btn btn-success"><i class="far fa-edit"></i></a>
+							</td>
+							<td><a th:href="@{/purchaseorder/view/{id}(id=${ob.id})}" class="btn btn-info"><i class="far fa-eye"></i></a></td>
+							<td><a th:href="@{/purchaseorder/delete/{id}(id=${ob.id})}" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a></td>
+							<td><a th:href="@{/purchaseorder/excel/{id}(id=${ob.id})}" class="btn btn-warning"><i class="fas fa-file-excel"></i></a></td>
+							<td><a th:href="@{/purchaseorder/pdf/{id}(id=${ob.id})}" class="btn btn-secondary"><i class="fas fa-file-pdf"></i></a></td>
+							<td><a th:href="@{/purchaseorder/dtls/{id}(id=${ob.id})}" class="btn btn-info">PARTS</a></td>
+							<td>
+								<div th:switch="${ob.status}">
+								  <span th:case="${'ORDERED'}">
+									<a th:href="@{/purchaseorder/invoiceOrder/{id}(id=${ob.id})}" class="btn btn-info">GENERATE INVOICE</a>
+								  </span>
+								  <span th:case="${'INVOICED'}">
+									<a th:href="@{/purchaseorder/printInvoice/{id}(id=${ob.id})}" class="btn btn-success">PRINT INVOICE</a>
+								  </span>
+								  <span th:case="${'PICKING'}">
+									<b>UNDER SELECTION</b>
+								  </span>
+								  <span th:case="${'OPEN'}">
+									<b>ITEMS TO BE ADDED</b>
+								  </span>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
+
+			</div>
+			<!-- body end -->
+			<div th:if="${message!=null}">
+				<div class="card-footer bg-info text-white text-center">
+					<b><span th:text="${message}"></span></b>
+				</div>
+				<!-- footer end -->
+			</div>
+			<!-- condition end -->
+		</div>
+		<!-- card end -->
+	</div>
+	<!-- container end -->
+</body>
+</html>
